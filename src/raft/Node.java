@@ -106,13 +106,7 @@ public class Node extends Process {
         acks.put(index, 0);
         for (int i = 1; i < numNodes; i++) {
             Operation operation = new Operation(index, commit);
-            operation.dsend(String.valueOf(i));
-        }
-    }
-
-    private void broadcast(Task msg) {
-        for (int i=1; i < numNodes; i++) {
-            msg.dsend(String.valueOf(i));
+            operation.isend(String.valueOf(i));
         }
     }
 }
