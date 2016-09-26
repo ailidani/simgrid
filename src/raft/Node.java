@@ -49,9 +49,9 @@ public class Node extends Process {
                 }
                 if (commReceive.test()) {
                     handleReceive(commReceive.getTask());
+                    commReceive = null;
                 }
                 clock = Msg.getClock();
-                commReceive = null;
             }
 
 
@@ -65,8 +65,8 @@ public class Node extends Process {
                 }
                 if (commReceive.test()) {
                     handleReceive(commReceive.getTask());
+                    commReceive = null;
                 }
-                commReceive = null;
             }
         }
 
