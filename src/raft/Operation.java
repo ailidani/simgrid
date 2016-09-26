@@ -23,4 +23,9 @@ public class Operation extends Task {
     public long getCommit() {
         return commit;
     }
+
+    @Override
+    public String toString() {
+        return "Operation {index=" + index + ", commit=" + commit + '}';
+    }
 }

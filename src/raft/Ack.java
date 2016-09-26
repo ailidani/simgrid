@@ -14,4 +14,9 @@ public class Ack extends Task {
     public long getIndex() {
         return index;
     }
+
+    @Override
+    public String toString() {
+        return "Ack {index=" + index + '}';
+    }
 }

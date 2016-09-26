@@ -44,6 +44,7 @@ public class Node extends Process {
                     commReceive = Task.irecv(mailbox);
                 }
                 if (ThreadLocalRandom.current().nextDouble() <= Common.ALPHA) {
+                    Msg.info("Leader: Append operation index=" + (index + 1) + " commit=" + commit);
                     append();
                 }
                 if (commReceive.test()) {
@@ -74,6 +75,7 @@ public class Node extends Process {
     private void handleReceive(Task msg) {
         if (msg instanceof Ack) {
             Ack ack = (Ack) msg;
+            Msg.info("Leader received " + ack);
             long index = ack.getIndex();
             if (index <= commit) return;
             int acked = acks.get(index);
@@ -87,6 +89,7 @@ public class Node extends Process {
 
         else if (msg instanceof Operation) {
             Operation op = (Operation) msg;
+            Msg.info("Follower received " + op);
             if (op.getIndex() == index + 1) {
                 index++;
                 Ack ack = new Ack(index);
@@ -100,9 +103,11 @@ public class Node extends Process {
 
     private void append() {
         index++;
-        Operation operation = new Operation(index, commit);
         acks.put(index, 0);
-        broadcast(operation);
+        for (int i = 1; i < numNodes; i++) {
+            Operation operation = new Operation(index, commit);
+            operation.dsend(String.valueOf(i));
+        }
     }
 
     private void broadcast(Task msg) {
