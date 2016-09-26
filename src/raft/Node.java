@@ -47,10 +47,11 @@ public class Node extends Process {
                     Msg.info("Leader: Append operation index=" + (index + 1) + " commit=" + commit);
                     append();
                 }
-                if (commReceive.test()) {
+                commReceive.waitCompletion();
+                //if (commReceive.test()) {
                     handleReceive(commReceive.getTask());
                     commReceive = null;
-                }
+                //}
                 clock = Msg.getClock();
             }
 
