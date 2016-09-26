@@ -64,10 +64,11 @@ public class Node extends Process {
                 if (commReceive == null) {
                     commReceive = Task.irecv(mailbox);
                 }
-                if (commReceive.test()) {
+                commReceive.waitCompletion();
+                //if (commReceive.test()) {
                     handleReceive(commReceive.getTask());
                     commReceive = null;
-                }
+                //}
             }
         }
 
